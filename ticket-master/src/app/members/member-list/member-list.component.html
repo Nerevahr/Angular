@@ -1,4 +1,6 @@
-<section fxLayout="row wrap" fxFlex="90" fxFlexOffset="5" fxFlex.gt-md="60" fxFlexOffset.gt-sm="20">
+<mat-progress-bar *ngIf="fetching" mode="query"></mat-progress-bar>
+
+<section *ngIf="fetching == false" fxLayout="row wrap" fxFlex="90" fxFlexOffset="5" fxFlex.gt-md="60" fxFlexOffset.gt-sm="20">
     <div class="mat-display-2" fxFlex="100">
         <br />
         {{!memberList.length ? 'There is no Member' : 'List of Members'}}

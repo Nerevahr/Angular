@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { MemberListService } from 'src/app/shared/services/member-list.service';
 import { Member } from 'src/app/shared/models/member.model';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -13,8 +14,25 @@ export class MemberListComponent {
 
   public memberList: Member[] = [];
 
-  constructor(private memberListService: MemberListService) {
-    this.memberList = this.memberListService.get();
+  fetching: boolean = false;
+
+  constructor(
+    private memberListService: MemberListService) { }
+
+  ngOnInit(){
+
+    this.fetching = true;
+
+    this.memberListService.get().subscribe(
+      (memberList: Member[]) => {
+        this.memberList = memberList;
+        this.fetching = false;
+      },
+      (error: HttpErrorResponse) => {
+        this.fetching = false;
+      }
+    );
   }
+  
 
 }

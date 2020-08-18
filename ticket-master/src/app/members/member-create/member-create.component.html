@@ -40,9 +40,12 @@
                 Role is required
             </mat-error>
         </mat-form-field>
-        <button class="bottom right" mat-fab color="accent">
+        <div class="bottom right">
+        <button *ngIf="fetched == false" class="bottom right" mat-fab color="accent">
             <mat-icon>add</mat-icon>
         </button>
+        <mat-spinner *ngIf="fetched"></mat-spinner>
+        </div>
     </form>
 
 

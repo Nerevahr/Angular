@@ -16,12 +16,15 @@ export class MemberCreateComponent implements OnInit {
 
   public memberForm: FormGroup;
 
+  public fetched : boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private memberListService: MemberListService,
     private http: HttpClient
-  ) { }
+  ) { console.log(this.fetched);
+   }
 
   ngOnInit(): void {
     this.memberForm = this.fb.group({
@@ -41,15 +44,32 @@ export class MemberCreateComponent implements OnInit {
   }
 
   public create(): void {
+
     if (this.memberForm.valid) {
+
+      this.fetched = true;
+
       this.memberListService.post({
-        id: this.memberListService.get().length + 1,
+        id: this.memberListService.getMemberList().length + 1,
         firstName: this.memberForm.controls.firstName.value,
         lastName: this.memberForm.controls.lastName.value,
         role: this.memberForm.controls.role.value
-      });
-      this.router.navigate(["members"]);
+      }).subscribe(
+        (data: Member[]) => {
+          //console.log(data);
+          this.fetched = false
+          this.router.navigate(["members"]);
+        },
+        (error: HttpErrorResponse) => {
+          //console.log(error);
+          this.fetched = false
+        }
+      );
+      //this.router.navigate(["members"]);
     }
   }
+
+  
+
 
 }
